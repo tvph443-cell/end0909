@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050806">
+<meta name="robots" content="noindex">
+<title>Painel — TERMINAL//CHAT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+<script type="module" src="/admin.js"></script>
+</head>
+<body>
+  <section id="view-login" class="screen" hidden>
+    <div class="window">
+      <div class="window-bar"><span class="dots"><i></i><i></i><i></i></span>painel de administração</div>
+      <div class="window-body">
+        <p class="boot">
+          <span class="ok">módulo admin carregado</span>
+          <span>&gt; acesso restrito<span class="cursor"></span></span>
+        </p>
+        <form id="login-form">
+          <div class="field">
+            <label for="login-name">login</label>
+            <input id="login-name" autocomplete="username" value="admin" maxlength="20" required spellcheck="false" autocapitalize="off">
+          </div>
+          <div class="field">
+            <label for="login-pass">senha</label>
+            <input id="login-pass" type="password" autocomplete="current-password" required autofocus>
+          </div>
+          <p class="hint">
+            <b>Primeiro acesso?</b> Entre como <b>admin</b> com a senha que quiser — ela passa a ser a senha do painel.
+          </p>
+          <p id="login-msg" class="form-msg" role="status"></p>
+          <div class="actions">
+            <button class="btn" type="submit">&gt; acessar painel</button>
+            <a href="/" class="muted">voltar ao site</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <main id="view-panel" class="admin" hidden>
+    <header class="admin-head">
+      <h1 class="glow">&gt; painel_admin</h1>
+      <span class="muted" id="admin-name"></span>
+      <span class="spacer"></span>
+      <a class="btn ghost small" href="/">abrir chat</a>
+      <button class="btn ghost small" id="logout-btn" type="button">sair</button>
+    </header>
+
+    <div class="grid">
+      <section class="card">
+        <h2>status do site</h2>
+        <label class="toggle">
+          <input type="checkbox" id="construction-toggle">
+          <span class="track"></span>
+          <span id="construction-label">Em construção</span>
+        </label>
+        <p class="hint" id="construction-hint"></p>
+        <div class="stat-row" style="margin-top:18px">
+          <div class="stat"><b id="stat-users">–</b><span>nomes</span></div>
+          <div class="stat"><b id="stat-messages">–</b><span>mensagens</span></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>enviar aviso</h2>
+        <form id="announce-form">
+          <div class="stack">
+            <label for="announce-body">Aparece para todos no chat como *** AVISO</label>
+            <textarea id="announce-body" maxlength="500" required placeholder="Ex.: manutenção hoje às 22h"></textarea>
+          </div>
+          <button class="btn" type="submit">publicar aviso</button>
+        </form>
+      </section>
+
+      <section class="card wide">
+        <h2>textos do site</h2>
+        <form id="settings-form">
+          <div class="grid">
+            <div class="stack">
+              <label for="set-title">Nome do chat</label>
+              <input id="set-title" maxlength="60">
+            </div>
+            <div class="stack">
+              <label for="set-construction">Texto da página em construção</label>
+              <input id="set-construction" maxlength="200">
+            </div>
+          </div>
+          <div class="stack">
+            <label for="set-motd">Mensagem de boas-vindas (mostrada ao entrar no chat)</label>
+            <textarea id="set-motd" maxlength="1000"></textarea>
+          </div>
+          <button class="btn" type="submit">salvar textos</button>
+        </form>
+      </section>
+
+      <section class="card wide">
+        <h2>nomes registrados</h2>
+        <p class="hint" style="margin-top:0">Apagar um nome libera ele para ser registrado de novo (com outra senha) e remove as mensagens dele.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>nome</th><th>mensagens</th><th>visto por último</th><th></th></tr></thead>
+            <tbody id="users-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card wide">
+        <h2>mensagens recentes</h2>
+        <div class="msg-list" id="messages-list"></div>
+        <div class="actions">
+          <button class="btn danger small" type="button" id="clear-messages">apagar todas as mensagens</button>
+        </div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

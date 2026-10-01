@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050806">
+<title>Meu site</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+<script type="module" src="/app.js"></script>
+</head>
+<body>
+  <!-- Shown while the admin keeps the site in "em construção" mode -->
+  <section id="view-construction" class="screen" hidden>
+    <div class="construction">
+      <p><span class="glow">&gt;</span> <span id="construction-text">Em construção.</span><span class="cursor"></span></p>
+    </div>
+  </section>
+
+  <section id="view-login" class="screen" hidden>
+    <div class="window">
+      <div class="window-bar"><span class="dots"><i></i><i></i><i></i></span><span id="login-title">TERMINAL//CHAT</span></div>
+      <div class="window-body">
+<pre class="banner glow" aria-hidden="true"> _____ ___ ___ __  __ ___ _  _   _   _
+|_   _| __| _ \  \/  |_ _| \| | /_\ | |
+  | | | _||   / |\/| || || .` |/ _ \| |__
+  |_| |___|_|_\_|  |_|___|_|\_/_/ \_\____|</pre>
+        <p class="boot">
+          <span class="ok">conexão segura estabelecida</span>
+          <span class="ok">canal #geral disponível</span>
+          <span>&gt; identifique-se para entrar<span class="cursor"></span></span>
+        </p>
+        <form id="login-form" autocomplete="on">
+          <div class="field">
+            <label for="login-name">login</label>
+            <input id="login-name" name="username" autocomplete="username" maxlength="20" required autofocus spellcheck="false" autocapitalize="off">
+          </div>
+          <div class="field">
+            <label for="login-pass">senha</label>
+            <input id="login-pass" name="password" type="password" autocomplete="current-password" maxlength="200" required>
+          </div>
+          <p class="hint">
+            <b>Nome novo?</b> Ele passa a ser seu — a senha digitada agora fica ligada a ele.<br>
+            <b>Nome já usado?</b> Só entra com a senha correta.
+          </p>
+          <p id="login-msg" class="form-msg" role="status"></p>
+          <div class="actions">
+            <button class="btn" type="submit">&gt; entrar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section id="view-chat" class="term" hidden>
+    <header class="term-head">
+      <span class="title glow" id="chat-title">TERMINAL//CHAT</span>
+      <span class="muted">#geral</span>
+      <span class="spacer"></span>
+      <span class="online muted" id="online-count">0 online</span>
+      <span class="who-am-i muted" id="who-am-i"></span>
+      <button type="button" id="logout-btn">sair</button>
+    </header>
+    <div class="output" id="output" aria-live="polite"></div>
+    <form class="input-row" id="chat-form" autocomplete="off">
+      <label class="prompt" for="chat-input"><span id="prompt-name">user</span><span class="host">@chat</span>:<span class="path">~</span>$</label>
+      <input id="chat-input" maxlength="500" spellcheck="false" placeholder="digite uma mensagem ou /ajuda">
+    </form>
+  </section>
+</body>
+</html>
