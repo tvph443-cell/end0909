@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050806">
+<meta name="robots" content="noindex">
+<title>Painel — TERMINAL//CHAT</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23050806'/%3E%3Cpath d='M7 9l8 7-8 7' fill='none' stroke='%2339ff88' stroke-width='3'/%3E%3Cpath d='M17 23h9' stroke='%2339ff88' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+<script type="module" src="/admin.js"></script>
+</head>
+<body>
+  <!-- First access: no administrator exists yet -->
+  <section id="view-setup" class="screen" hidden>
+    <div class="window">
+      <div class="window-bar"><span class="dots"><i></i><i></i><i></i></span>primeiro acesso</div>
+      <div class="window-body">
+        <p class="boot">
+          <span class="ok">módulo admin carregado</span>
+          <span>&gt; nenhum administrador cadastrado<span class="cursor"></span></span>
+        </p>
+        <p id="setup-unconfigured" class="hint err" hidden>
+          A variável <b>ADMIN_SETUP_KEY</b> não está definida. No Netlify, abra <b>Site configuration → Environment variables</b>,
+          crie <b>ADMIN_SETUP_KEY</b> com um texto secreto de 16+ caracteres, publique de novo e recarregue esta página.
+        </p>
+        <form id="setup-form" autocomplete="off">
+          <div class="field">
+            <label for="setup-key">chave</label>
+            <input id="setup-key" type="password" autocomplete="off" required spellcheck="false">
+          </div>
+          <div class="field">
+            <label for="setup-name">login</label>
+            <input id="setup-name" value="admin" maxlength="20" required spellcheck="false" autocapitalize="off" autocomplete="username">
+          </div>
+          <div class="field">
+            <label for="setup-pass">senha</label>
+            <input id="setup-pass" type="password" autocomplete="new-password" minlength="10" required>
+          </div>
+          <div class="field">
+            <label for="setup-pass2">repita</label>
+            <input id="setup-pass2" type="password" autocomplete="new-password" minlength="10" required>
+          </div>
+          <p class="hint">
+            A <b>chave</b> é o valor de <b>ADMIN_SETUP_KEY</b> no Netlify: só quem controla o site consegue criar o administrador.
+            A senha precisa ter 10+ caracteres.
+          </p>
+          <p id="setup-msg" class="form-msg" role="status"></p>
+          <div class="actions">
+            <button class="btn" type="submit" id="setup-btn">&gt; criar administrador</button>
+            <a href="/" class="muted">voltar ao site</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section id="view-login" class="screen" hidden>
+    <div class="window">
+      <div class="window-bar"><span class="dots"><i></i><i></i><i></i></span>painel de administração</div>
+      <div class="window-body">
+        <p class="boot">
+          <span class="ok">módulo admin carregado</span>
+          <span>&gt; acesso restrito<span class="cursor"></span></span>
+        </p>
+        <form id="login-form">
+          <div class="field">
+            <label for="login-name">login</label>
+            <input id="login-name" autocomplete="username" maxlength="20" required autofocus spellcheck="false" autocapitalize="off">
+          </div>
+          <div class="field">
+            <label for="login-pass">senha</label>
+            <input id="login-pass" type="password" autocomplete="current-password" required>
+          </div>
+          <p class="hint">Você continua conectado neste aparelho até clicar em <b>sair</b>.</p>
+          <p id="login-msg" class="form-msg" role="status"></p>
+          <div class="actions">
+            <button class="btn" type="submit">&gt; acessar painel</button>
+            <a href="/" class="muted">voltar ao site</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <main id="view-panel" class="admin" hidden>
+    <header class="admin-head">
+      <h1 class="glow">&gt; painel_admin</h1>
+      <span class="muted" id="admin-name"></span>
+      <span class="spacer"></span>
+      <a class="btn ghost small" href="/">abrir chat</a>
+      <button class="btn ghost small" id="logout-btn" type="button">sair</button>
+    </header>
+
+    <div class="grid">
+      <section class="card">
+        <h2>status do site</h2>
+        <label class="toggle">
+          <input type="checkbox" id="construction-toggle">
+          <span class="track"></span>
+          <span id="construction-label">Em construção</span>
+        </label>
+        <p class="hint" id="construction-hint"></p>
+        <div class="stat-row" style="margin-top:18px">
+          <div class="stat"><b id="stat-users">–</b><span>nomes</span></div>
+          <div class="stat"><b id="stat-messages">–</b><span>mensagens</span></div>
+          <div class="stat"><b id="stat-stars">–</b><span>salvas</span></div>
+        </div>
+        <p class="hint" id="retention-hint"></p>
+      </section>
+
+      <section class="card">
+        <h2>enviar aviso</h2>
+        <form id="announce-form">
+          <div class="stack">
+            <label for="announce-body">Aparece para todos no chat como *** AVISO</label>
+            <textarea id="announce-body" maxlength="500" required placeholder="Ex.: manutenção hoje às 22h"></textarea>
+          </div>
+          <button class="btn" type="submit">publicar aviso</button>
+        </form>
+      </section>
+
+      <section class="card wide">
+        <h2>terminal</h2>
+        <div class="console">
+          <div class="console-out" id="console-out" aria-live="polite"></div>
+          <form class="console-row" id="console-form" autocomplete="off">
+            <label class="prompt" for="console-input"><span id="console-user">admin</span><span class="host">@painel</span>:<span class="path">#</span></label>
+            <input id="console-input" spellcheck="false" autocapitalize="off" placeholder="digite ajuda">
+          </form>
+        </div>
+      </section>
+
+      <section class="card wide">
+        <h2>textos do site</h2>
+        <form id="settings-form">
+          <div class="grid">
+            <div class="stack">
+              <label for="set-title">Nome do chat</label>
+              <input id="set-title" maxlength="60">
+            </div>
+            <div class="stack">
+              <label for="set-construction">Texto da página em construção</label>
+              <input id="set-construction" maxlength="200">
+            </div>
+          </div>
+          <div class="stack">
+            <label for="set-motd">Mensagem de boas-vindas (mostrada ao entrar no chat)</label>
+            <textarea id="set-motd" maxlength="1000"></textarea>
+          </div>
+          <button class="btn" type="submit">salvar textos</button>
+        </form>
+      </section>
+
+      <section class="card wide">
+        <h2>nomes registrados</h2>
+        <p class="hint" style="margin-top:0">Apagar um nome libera ele para ser registrado de novo (com outra senha) e remove as mensagens dele. "Deslogar" encerra a sessão do nome em todos os aparelhos.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>nome</th><th>mensagens</th><th>aparelhos</th><th>visto por último</th><th></th></tr></thead>
+            <tbody id="users-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card wide">
+        <h2>mensagens recentes</h2>
+        <p class="hint" style="margin-top:0" id="messages-hint"></p>
+        <div class="msg-list" id="messages-list"></div>
+        <div class="actions">
+          <button class="btn ghost small" type="button" id="run-purge">executar limpeza agora</button>
+          <button class="btn danger small" type="button" id="clear-messages">apagar todas as mensagens</button>
+        </div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
